@@ -2,8 +2,8 @@ import argparse
 import requests
 import time
 
-event_ids = [1005460255,1005460246,1005460245,1005460240,1005460235,1005460234,1005460239,1005460263,1005460233,
-             1005460231,1005469582,1005469575,1005451051,1005451054,1005469583,1005451058,1005451050,1005469580]
+event_ids = [1005484005, 1005484240, 1005484241, 1005486643, 1005481623, 1005537168, 1005537169, 1005537167,
+             1005537165, 1005537166, 1005537170]
 valid_ids = {}
 event_names = {}
 
@@ -72,9 +72,6 @@ while 1:
                                     if difference > 0.0:
                                         print time_str + ': ' + event_names[event_id] + ' under 2.5 odds dropped by ' + str(difference) \
                                               + ' from ' + str(under_2500_list[event_id][-1]['odds']) + ' to ' + str(measurementUnder['odds'])
-                                    elif difference < 0.0:
-                                        print time_str + ': ' + event_names[event_id] + ' under 2.5 odds increased by ' + str(-difference) \
-                                              + ' from ' + str(under_2500_list[event_id][-1]['odds']) + ' to ' + str(measurementUnder['odds'])
 
                                 measurementOver = {'odds': float(bet_offer['outcomes'][0]['odds']) / 1000.0,
                                                    'time': int(time.time())}
@@ -89,9 +86,6 @@ while 1:
 
                                     if difference > 0.0:
                                         print time_str + ': ' + event_names[event_id] + ' over 2.5 odds dropped by ' + str(difference) \
-                                              + ' from ' + str(over_2500_list[event_id][-1]['odds']) + ' to ' + str(measurementOver['odds'])
-                                    elif difference < 0.0:
-                                        print time_str + ': ' + event_names[event_id] + ' over 2.5 odds increased by ' + str(-difference) \
                                               + ' from ' + str(over_2500_list[event_id][-1]['odds']) + ' to ' + str(measurementOver['odds'])
 
                                 over_2500_list[event_id].append(measurementOver)
