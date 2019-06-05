@@ -95,9 +95,9 @@ while 1:
                                 over_2500_list[event_id].append(measurementOver)
                 else:
                     valid_ids[event_id] = False
-                    print time_str + ': ' + 'Event ' + str(event_id) + ' is no longer valid'
+                    print time_str + ': ' + 'Event ' + event_names[event_id] + ' is no longer valid'
 
         except Exception:
-            print time_str + ': ' + 'Error while processing event ' + str(event_id)
+            print time_str + ': ' + 'Error while processing event ' + event_names[event_id]
 
         time.sleep(2)
