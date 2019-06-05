@@ -43,6 +43,10 @@ for event_id in event_ids:
     over_2500_list[event_id] = []
 
 while 1:
+    if not any(valid_ids):
+        print 'No valid events left, shutting down...'
+        exit(0)
+
     for event_id in event_ids:
         url = 'https://eu-offering.kambicdn.org/offering/v2018/ub/betoffer/event/' + str(event_id) \
               + '.json'
