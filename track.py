@@ -18,9 +18,9 @@ f = open('output.txt', 'w')
 original = sys.stdout
 sys.stdout = Tee(sys.stdout, f)
 
-event_ids = [1005492442, 1005498786, 1005498836, 1005498838, 1005498839, 1005498360, 1005498358, 1005498357, 1005498357,
-             1005498356, 1005498359, 1005495775, 1005495777, 1005495755, 1005496190, 1005495754, 1005495776, 1005496191,
-             1005495782, 1005496189]
+event_ids = [1005498786, 1005498836, 1005498838, 1005498839, 1005498360, 1005498358, 1005498357, 1005498357, 1005498356,
+             1005498359, 1005495775, 1005495777, 1005495755, 1005496190, 1005495754, 1005495776, 1005496191, 1005495782,
+             1005496189]
 
 valid_ids = {}
 event_names = {}
@@ -41,15 +41,16 @@ for event_id in event_ids:
         else:
             event_data = unibet_data['events'][0]
 
-            print 'Event [' + str(event_id) + ', ' + event_data['group'] + ', ' + event_data['name'] \
-                  + ', ' + event_data['start'] + ']'
+            print 'Event [' + str(event_id) + ', ' + event_data['group'].encode('utf-8').strip() + ', ' \
+                  + event_data['name'].encode('utf-8').strip() + ', ' + event_data['start'].encode('utf-8').strip() \
+                  + ']'
 
-            event_names[event_id] = event_data['name']
+            event_names[event_id] = event_data['name'].encode('utf-8').strip()
             valid_ids[event_id] = True
 
-    except Exception:
+    except Exception, e:
         valid_ids[event_id] = False
-        print 'Initial error while processing ' + str(event_id)
+        print 'Initial error while processing ' + str(event_id) + ' ' + str(e)
 
     time.sleep(2)
 
@@ -61,7 +62,7 @@ for event_id in event_ids:
     over_2500_list[event_id] = []
 
 while 1:
-    if not any(valid_ids):
+    if not any(valid_id is True for valid_id in valid_ids.itervalues()):
         print 'No valid events left, shutting down...'
         exit(0)
 
@@ -69,7 +70,7 @@ while 1:
         url = 'https://eu-offering.kambicdn.org/offering/v2018/ub/betoffer/event/' + str(event_id) \
               + '.json'
 
-        time_str = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
+        time_str = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 
         try:
             if valid_ids[event_id]:
