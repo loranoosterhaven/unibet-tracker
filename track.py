@@ -1,11 +1,27 @@
-import argparse
 import requests
 import time
+import sys
 
-event_ids = [1005492447, 1005491046, 1005492458, 1005491128, 1005491044, 1005491267, 1005493395, 1005525461, 1005525460,
-             1005494711, 1005481588, 1005488701, 1005488942, 1005501107, 1005501108, 1005501106, 1005501111, 1005491249,
-             1005491255, 1005492454, 1005492453, 1005492443, 1005492449, 1005492444, 1005492445, 1005492446, 1005492450,
-             1005492440, 1005492442]
+class Tee(object):
+    def __init__(self, *files):
+        self.files = files
+    def write(self, obj):
+        for f in self.files:
+            f.write(obj)
+            f.flush() # If you want the output to be visible immediately
+    def flush(self) :
+        for f in self.files:
+            f.flush()
+
+
+f = open('output.txt', 'w')
+original = sys.stdout
+sys.stdout = Tee(sys.stdout, f)
+
+event_ids = [1005492442, 1005498786, 1005498836, 1005498838, 1005498839, 1005498360, 1005498358, 1005498357, 1005498357,
+             1005498356, 1005498359, 1005495775, 1005495777, 1005495755, 1005496190, 1005495754, 1005495776, 1005496191,
+             1005495782, 1005496189]
+
 valid_ids = {}
 event_names = {}
 
