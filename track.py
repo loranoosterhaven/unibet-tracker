@@ -18,9 +18,8 @@ f = open('output.txt', 'w')
 original = sys.stdout
 sys.stdout = Tee(sys.stdout, f)
 
-event_ids = [1005498786, 1005498836, 1005498838, 1005498839, 1005498360, 1005498358, 1005498357, 1005498357, 1005498356,
-             1005498359, 1005495775, 1005495777, 1005495755, 1005496190, 1005495754, 1005495776, 1005496191, 1005495782,
-             1005496189]
+event_ids = [1005561878, 1005561880, 1005561885, 1005561879, 1005561877, 1005561882, 1005598864, 1005561888, 1005561887,
+             1005561881, 1005575768, 1005575769, 1005575770, 1005575772, 1005575771, 1005575773, 1005575774, 1005567375]
 
 valid_ids = {}
 event_names = {}
@@ -55,11 +54,9 @@ for event_id in event_ids:
     time.sleep(2)
 
 under_2500_list = {}
-over_2500_list = {}
 
 for event_id in event_ids:
     under_2500_list[event_id] = []
-    over_2500_list[event_id] = []
 
 while 1:
     if not any(valid_id is True for valid_id in valid_ids.itervalues()):
@@ -95,23 +92,12 @@ while 1:
                                     if difference > 0.0:
                                         print time_str + ': ' + event_names[event_id] + ' under 2.5 odds dropped by ' + str(difference) \
                                               + ' from ' + str(under_2500_list[event_id][-1]['odds']) + ' to ' + str(measurementUnder['odds'])
-
-                                measurementOver = {'odds': float(bet_offer['outcomes'][0]['odds']) / 1000.0,
-                                                   'time': int(time.time())}
+                                    elif difference < 0.0:
+                                        print time_str + ': ' + event_names[event_id] + ' under 2.5 odds increased by ' + str(-difference) \
+                                              + ' from ' + str(under_2500_list[event_id][-1]['odds']) + ' to ' + str(measurementUnder['odds'])
 
                                 under_2500_list[event_id].append(measurementUnder)
 
-                                if not over_2500_list[event_id]:
-                                    print time_str + ': ' + event_names[event_id] + ' initial over 2.5 odds are ' + str(measurementOver['odds'])
-
-                                if over_2500_list[event_id]:
-                                    difference = over_2500_list[event_id][-1]['odds'] - measurementOver['odds']
-
-                                    if difference > 0.0:
-                                        print time_str + ': ' + event_names[event_id] + ' over 2.5 odds dropped by ' + str(difference) \
-                                              + ' from ' + str(over_2500_list[event_id][-1]['odds']) + ' to ' + str(measurementOver['odds'])
-
-                                over_2500_list[event_id].append(measurementOver)
                 else:
                     valid_ids[event_id] = False
                     print time_str + ': ' + 'Event ' + event_names[event_id] + ' is no longer valid'
